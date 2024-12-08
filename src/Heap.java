@@ -70,4 +70,7 @@ public class Heap <T extends Comparable<T>> {
         }
     }
 
+    public int size() {
+        return list.size();
+    }
 }
