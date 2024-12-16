@@ -70,6 +70,23 @@ public class Graph {
         g1.bfsTraversal();
         System.out.println();
         g1.dfsTraversal();
+
+        List<List<Integer>> l2 = new ArrayList<>(
+                List.of(
+                        List.of(2, 3,4),
+                        List.of(1,4,5),
+                        List.of(1,4),
+                        List.of(1,2,3),
+                        List.of(2)
+                )
+        );
+
+        System.out.println();
+        Graph g2 =new Graph(l2);
+        g2.bfsTraversal();
+        System.out.println();
+        g2.dfsTraversal();
+
     }
 
 }
