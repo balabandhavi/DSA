@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Queue;
 
 public class Graph {
-    private static List<List<Integer>>adj;
+    private  List<List<Integer>>adj;
     public Graph(List<List<Integer>> adj){
         this.adj=adj;
     }
@@ -49,6 +49,48 @@ public class Graph {
             }
     }
 
+    private boolean detectCycle(int source,boolean[] visited){
+        visited[source]=true;
+        Queue<Pair> q=new LinkedList<>();
+        q.add(new Pair(source,-1));
+        while(!q.isEmpty()){
+            Pair p=q.poll();
+            int current=p.vertex;
+            int parent=p.parent;
+            for(int children: adj.get(current-1)){
+                if(!visited[children]){
+                    visited[children]=true;
+                    q.add(new Pair(children,current));
+                }else if(children!=parent) return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isCycle(){
+        boolean[] visited=new boolean[adj.size()+1];
+        for(int i=1;i< visited.length;++i){
+            if(!visited[i]){
+                if(detectCycle(i,visited)) return true;
+            }
+        }
+        return false;
+    }
+
+
+    class Pair{
+        int vertex;
+        int parent;
+
+        public Pair(int vertex,int parent) {
+            this.vertex = vertex;
+            this.parent=parent;
+        }
+    }
+
+
+
+
 
     public static void main(String[] args) {
         List<List<Integer>> l1 = new ArrayList<>(
@@ -70,6 +112,7 @@ public class Graph {
         g1.bfsTraversal();
         System.out.println();
         g1.dfsTraversal();
+        System.out.println("\nIs this garph a cycle? "+g1.isCycle());
 
         List<List<Integer>> l2 = new ArrayList<>(
                 List.of(
@@ -86,7 +129,40 @@ public class Graph {
         g2.bfsTraversal();
         System.out.println();
         g2.dfsTraversal();
+        System.out.println("\nIs this garph a cycle? "+g2.isCycle());
 
+        List<List<Integer>> l3 = new ArrayList<>(
+                List.of(
+                        List.of(2),
+                        List.of(1,3),
+                        List.of(2),
+                        List.of(5),
+                        List.of(4)
+                )
+        );
+
+        System.out.println();
+        Graph g3 =new Graph(l3);
+        g3.bfsTraversal();
+        System.out.println();
+        g3.dfsTraversal();
+        System.out.println("\nIs this garph a cycle? "+g3.isCycle());
+
+        List<List<Integer>> l4 = new ArrayList<>(
+                List.of(
+                        List.of(),
+                        List.of(3),
+                        List.of(2,4),
+                        List.of(3)
+                )
+        );
+
+        System.out.println();
+        Graph g4 =new Graph(l4);
+        g4.bfsTraversal();
+        System.out.println();
+        g4.dfsTraversal();
+        System.out.println("\nIs this garph a cycle? "+g4.isCycle());
     }
 
 }
